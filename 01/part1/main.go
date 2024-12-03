@@ -13,7 +13,7 @@ import (
 var DiffCount = 0
 
 func main() {
-	file, err := os.Open("input.txt")
+	file, err := os.Open("test_input.txt")
 	if err != nil {
 		log.Fatalf("failed to open file: %s", err)
 	}
