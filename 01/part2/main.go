@@ -5,21 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"slices"
 	"strconv"
 	"strings"
 )
 
-var DiffCount = 0
+var SimmCount = 0
 
 func main() {
-	file, err := os.Open("test_input.txt")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatalf("failed to open file: %s", err)
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
-	
+
 	list_1 := []int{}
 	list_2 := []int{}
 	for scanner.Scan() {
@@ -33,19 +32,28 @@ func main() {
 		log.Fatalf("failed to read file: %s", err)
 	}
 
-	slices.Sort(list_1)
-	slices.Sort(list_2)
+	list2NumCounts := getNumCounts(list_2)
 
-	for i := 0; i < len(list_2); i++ {
-		DiffCount += absDiffInt(list_1[i], list_2[i])
+	for _, num := range list_1 {
+		val, ok := list2NumCounts[num]
+		if ok {
+			SimmCount += num * val
+		}
 	}
-	
-	fmt.Println(DiffCount)
+	fmt.Println(SimmCount)
 }
 
-func absDiffInt(x, y int) int {
-	if x < y {
-	   return y - x
+func getNumCounts(listOfNums []int) map[int]int {
+	l2Counts := map[int]int{}
+	for _, num := range listOfNums {
+		_, ok := l2Counts[num]
+
+		if !ok {
+			l2Counts[num] = 1
+		} else {
+			l2Counts[num]++
+		}
 	}
-	return x - y
- }
+
+	return l2Counts
+}
