@@ -15,10 +15,10 @@ func main() {
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
 	if err := scanner.Err(); err != nil {
 		log.Fatalf("failed to read file: %s", err)
+	}
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
 	}
 }
